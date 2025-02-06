@@ -1,22 +1,24 @@
 const express = require("express");
-const userRoute = require("./controllers/user");
-//express initialize
-const app = express();
+const userApi = require("./controllers/user"); // Import only once
 require("dotenv").config();
 require("./connection/conn");
 
+// Express initialize
+const app = express();
+app.use(express.json());
 
-app.get("/",(req,res)=>{
+
+app.get("/", (req, res) => {
     res.send("hello");
-})
-app.get("/login",(req,res)=>{
+});
+
+app.get("/login", (req, res) => {
     res.send("login");
-})
+});
 
-//api's
- 
+// API routes
+app.use("/api/v1", userApi); // Fix the typo "vi" -> "v1"
 
-
-app.listen(process.env.PORT,()=>{
-    console.log("server started")
-})
+app.listen(process.env.PORT, () => {
+    console.log("server started on port", process.env.PORT);
+});

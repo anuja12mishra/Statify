@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -27,7 +27,8 @@ function Login() {
       );
       console.log(res.data);
       alert("Login successful!");
-      navigate("/login"); // ✅ Redirect to dashboard/home page
+      localStorage.setItem("userLoggedIn","Yes");
+      navigate("/dashboard"); 
     } catch (error) {
       alert(error.response?.data?.error || "Login failed. Try again.");
     }
@@ -70,7 +71,7 @@ function Login() {
               Login
             </button>
             <p className="text-center font-semibold text-gray-900">
-              Don't have an account?{" "}
+              Do not have an account?{" "}
               <Link className="text-blue-500" to="/register">
                 Register
               </Link>

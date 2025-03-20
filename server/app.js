@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const cookie = require("cookie-parser")
-const userApi = require("./controllers/user"); // Import only once
+const userApis = require("./controllers/user"); 
+const taskApis = require("./controllers/task"); 
 require("dotenv").config();
 require("./connection/conn");
 
@@ -21,8 +22,9 @@ app.get("/login", (req, res) => {
     res.send("login");
 });
 
-// API routes
-app.use("/api/v1", userApi); // Fix the typo "vi" -> "v1"
+
+app.use("/api/v1", userApis); 
+app.use("/task",taskApis);
 
 app.listen(process.env.PORT, () => {
     console.log("server started on port", process.env.PORT);

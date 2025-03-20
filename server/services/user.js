@@ -18,7 +18,7 @@ const register = async (req, res) => {
         // Check if username or email already exists
         const checkUser = await User.findOne({ $or: [{ email }, { username }] });
         if (checkUser) {
-            return res.status(400).json({ error: "User or email already exists" }); // ✅ Fixed typo
+            return res.status(400).json({ error: "User or email already exists" }); 
         }
 
         // Hash password

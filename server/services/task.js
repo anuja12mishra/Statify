@@ -1,79 +1,109 @@
-const task = require("../models/task");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const task = require("../models/task");
 
 
-const addTask = async(req,res)=>{
-    const user = req.body;
-    try{
-        const {title,description,priority,satus} = req.body;
-        const {user} = req.user;
-        if(!title || !description){
-            return res.status(400).json({error:"All fields are required"});
-        }
-        if(title.length<6){
-            return res.status(400).json({error:"the title must have 6 character"});    
-        }
-        if(description.length<6){
-            return res.status(400).json({error:"the description must have 6 character"});    
-        }
+// ✅ Add Task
+const addTask = async (req, res) => {
+    try {
+        const { title, description, priority, status } = req.body;
+        const user = req.user; // ✅ Access authenticated user
 
-        const newTask = new task(title,description,satus,priority);
+        if (!title || !description) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+        if (title.length < 6) {
+            return res.status(400).json({ error: "The title must have at least 6 characters" });
+        }
+        if (description.length < 6) {
+            return res.status(400).json({ error: "The description must have at least 6 characters" });
+        }
+        if (!priority || !['low', 'medium', 'high'].includes(priority.toLowerCase())) {
+            return res.status(400).json({ error: "Invalid priority value" });
+        }
+        if (!status || !['yetToStart', 'inProgress', 'Completed'].includes(status)) {
+            return res.status(400).json({ error: "Invalid status value" });
+        }
+        
+        const newTask = new task({ title, description, status, priority });
         await newTask.save();
+
         user.tasks.push(newTask._id);
         await user.save();
 
-        return res.status(200).json({success:"New Task added"});
-    }catch(err){
-        return res.status(404).json({error:"internal server error"});
+        return res.status(201).json({ success: "New task added" }); // ✅ Changed 200 → 201 (Created)
+    } catch (err) {
+        console.error("Add Task Error:", err);
+        return res.status(500).json({ error: "Internal server error" }); // ✅ Fixed error code
     }
-}
+};
 
+// ✅ Edit Task
+const editTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, priority, status } = req.body;
+        const user = req.user; // ✅ Access authenticated user
 
-const editTask = async(req,res)=>{
-    try{
-        const {id} = req.params;
-        const {title,description,priority,satus} = req.body;
-        const {user} = req.user;
-        if(!title || !description){
-            return res.status(400).json({error:"All fields are required"});
+        if (!title || !description) {
+            return res.status(400).json({ error: "All fields are required" });
         }
-        if(title.length<6){
-            return res.status(400).json({error:"the title must have 6 character"});    
+        if (title.length < 6) {
+            return res.status(400).json({ error: "The title must have at least 6 characters" });
         }
-        if(description.length<6){
-            return res.status(400).json({error:"the description must have 6 character"});    
+        if (description.length < 6) {
+            return res.status(400).json({ error: "The description must have at least 6 characters" });
         }
 
-       await task.findByIdAndUpdate(id,{title,description,satus,priority});
+        const updatedTask = await task.findByIdAndUpdate(
+            id,
+            { title, description, status, priority },
+            { new: true } // ✅ Return updated task
+        );
 
-        return res.status(200).json({success:"Task updated"});
-    }catch(err){
-        return res.status(404).json({error:"internal server error"});
+        if (!updatedTask) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        return res.status(200).json({ success: "Task updated" });
+    } catch (err) {
+        console.error("Edit Task Error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
-//Get a paticular task
-const getTask = async(req,res)=>{
-    try{
-        const {id} = req.params;
+// ✅ Get a particular Task
+const getTask = async (req, res) => {
+    try {
+        const { id } = req.params;
         const taskDetails = await task.findById(id);
-        return res.status(200).json({taskDetails});
-    }catch(err){
-        return res.status(404).json({error:"internal server error"});
+
+        if (!taskDetails) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        return res.status(200).json({ taskDetails });
+    } catch (err) {
+        console.error("Get Task Error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
-//delete a paticular task
-const deleteTask = async(req,res)=>{
-    try{
-        const {id} = req.params;
-        await task.findByIdAndDelete(id);
-        return res.status(200).json({success:"task deleted"});
-    }catch(err){
-        return res.status(404).json({error:"internal server error"});
+// ✅ Delete a Task
+const deleteTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedTask = await task.findByIdAndDelete(id);
+
+        if (!deletedTask) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        return res.status(200).json({ success: "Task deleted" });
+    } catch (err) {
+        console.error("Delete Task Error:", err);
+        return res.status(500).json({ error: "Internal server error" });
     }
-}
+};
 
-
-
-module.exports = {addTask,editTask,getTask,deleteTask};
+module.exports = { addTask, editTask, getTask, deleteTask };

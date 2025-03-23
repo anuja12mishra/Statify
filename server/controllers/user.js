@@ -1,5 +1,5 @@
 const express = require("express");
-const { register, login } = require("../services/user");
+const { register, login, logout } = require("../services/user");
 const { body, validationResult } = require("express-validator");
 
 const router = express.Router();
@@ -16,5 +16,5 @@ const validateRegister = [
 // Register route with validation middleware
 router.post("/register", validateRegister, register);
 router.post("/login", login);
-
+router.post("/logout", logout);
 module.exports = router;

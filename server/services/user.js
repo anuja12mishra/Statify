@@ -66,11 +66,10 @@ const login = async (req, res) => {
             { expiresIn: "30d" }
         );
 
-        // ✅ Set HTTP-Only cookie
         res.cookie("statiyUserToken", token, {
             httpOnly: true,
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-            secure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production", 
             sameSite: "None"
         });
 
@@ -81,5 +80,8 @@ const login = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
-
-module.exports = { register , login};
+const logout= (req, res) => {
+    res.clearCookie("statiyUserToken"); // Clear the authentication cookie
+    res.status(200).json({ message: "Logged out successfully" });
+};
+module.exports = { register , login,logout};

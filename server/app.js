@@ -14,14 +14,6 @@ app.use(cors({
     credentials:true
 }));
 app.use(cookie());
-app.get("/", (req, res) => {
-    res.send("hello");
-});
-
-app.get("/login", (req, res) => {
-    res.send("login");
-});
-
 
 app.use("/api/v1", userApis); 
 app.use("/task",taskApis);

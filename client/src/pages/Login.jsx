@@ -21,9 +21,7 @@ function Login() {
       const res = await axios.post(
         "http://localhost:1000/api/v1/login", 
         values,
-        {
-          withCredentials:true,
-        }
+        {withCredentials:true}
       );
       console.log(res.data);
       alert("Login successful!");

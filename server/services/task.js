@@ -7,7 +7,7 @@ const task = require("../models/task");
 const addTask = async (req, res) => {
     try {
         const { title, description, priority, status } = req.body;
-        const user = req.user; // ✅ Access authenticated user
+        const user = req.user;
 
         if (!title || !description) {
             return res.status(400).json({ error: "All fields are required" });
@@ -21,9 +21,9 @@ const addTask = async (req, res) => {
         if (!priority || !['low', 'medium', 'high'].includes(priority.toLowerCase())) {
             return res.status(400).json({ error: "Invalid priority value" });
         }
-        if (!status || !['yetToStart', 'inProgress', 'Completed'].includes(status)) {
+        if (!status || !['yettostart', 'inprogress', 'completed'].includes(status.toLowerCase())) {
             return res.status(400).json({ error: "Invalid status value" });
-        }
+        }        
         
         const newTask = new task({ title, description, status, priority });
         await newTask.save();
@@ -98,6 +98,7 @@ const deleteTask = async (req, res) => {
         if (!deletedTask) {
             return res.status(404).json({ error: "Task not found" });
         }
+        await User.updateOne({ _id: req.user._id }, { $pull: { tasks: id } });
 
         return res.status(200).json({ success: "Task deleted" });
     } catch (err) {

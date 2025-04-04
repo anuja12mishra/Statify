@@ -1,13 +1,19 @@
 import { IoLogOutOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Header=({setAddTaskDiv})=> {
-
-  const logout=()=>{
+const navigate = useNavigate();
+  const logout= async()=>{
     try{
-
+      const res = await axios.post("http://localhost:1000/api/v1/logout",{},{withCredentials:true});
+      alert(res.data.message);
+      localStorage.removeItem("userLoggedIn");
+      navigate("/login");
     }catch(err){
-      
+      console.error("Logout error:", err);
+      navigate("/login");
     }
   }
 

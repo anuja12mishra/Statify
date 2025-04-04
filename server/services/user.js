@@ -40,7 +40,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const { username, password } = req.body; // ✅ Fixed `req.body`
+        const { username, password } = req.body; 
 
         // ✅ Validate input fields
         if (!username || !password) {
@@ -70,7 +70,7 @@ const login = async (req, res) => {
             httpOnly: true,
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
             secure: process.env.NODE_ENV === "production", 
-            sameSite: "None"
+            sameSite: "Lax"
         });
 
         return res.status(200).json({ success: "Login successful" });
@@ -81,7 +81,40 @@ const login = async (req, res) => {
     }
 };
 const logout= (req, res) => {
-    res.clearCookie("statiyUserToken"); // Clear the authentication cookie
+    res.clearCookie("statiyUserToken"); 
     res.status(200).json({ message: "Logged out successfully" });
 };
-module.exports = { register , login,logout};
+
+const userDetails = async(req,res)=>{
+
+    try {
+        const {user}= req.body;
+        const getDetails = User.findById(User._id)
+            .populate("task")
+            .select("-password")
+        
+        if(getDetails){
+            const allTask = getDetails.tasks;
+            let yetToStart=[];
+            let inprogress=[];
+            let completed=[];
+
+            allTask.map((item)=>{
+                if(item.status ==="yettostart"){
+                    yetToStart.push(item)
+                }else if(item.status ==='inprogress'){
+                    inprogress.push(item);
+                }else{
+                        completed.push(item);
+                }
+            })
+        }
+        return res.status(201).json({success:true,tasks:[{yetToStart},{inprogress},{completed}]})
+        
+    } catch (err) {
+        console.error("Login Error:", err);
+        return res.status(500).json({ message: "Server error" });
+    }
+}
+
+module.exports = { register , login,logout,userDetails};

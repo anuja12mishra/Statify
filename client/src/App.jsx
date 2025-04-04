@@ -6,13 +6,13 @@ import { useEffect } from "react";
 function App() {
 
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(localStorage.getItem("userLoggedIn")){
+  useEffect(() => {
+    if (localStorage.getItem("userLoggedIn")) {
       navigate("/dashboard");
-    }else{
+    } else {
       navigate("/login");
     }
-  })
+  }, []);
   return (
     <>
       <Routes>

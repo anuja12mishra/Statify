@@ -5,20 +5,22 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     username:{
         type:String,
-        require:true
+        required:true
     },
-    email:{
-        type:String,
-        require:true
+    email: {
+        type: String,
+        required: true,
+        unique: true, // Prevent duplicate entries
+        match: [/\S+@\S+\.\S+/, 'Invalid email format'], // Regex for email validation
     },
     password:{
         type:String,
-        require:true
+        required:true
     },
     tasks:[
-        {
-            type: Schema.Types.ObjectId,
-            ref:"Task",
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: "Task" 
         }
     ],
 },

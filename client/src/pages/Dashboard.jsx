@@ -14,14 +14,26 @@ function Dashboard() {
         </div>
 
         <div className="px-12 py-4 flex gap-12 bg-zinc-200 min-h{89vh} max-h-auto">
-          <div>
-
+          <div className="w-1/3 ">
+            <div className="border-b pb-2"> 
+              <h1 className="font-semibold text-zinc-800 text-center">
+                Yet To Start
+              </h1>
+            </div>
           </div>
-          <div>
-
+          <div className="w-1/3 ">
+            <div className="border-b pb-2"> 
+              <h1 className="font-semibold text-zinc-800 text-center">
+                In Progress
+              </h1>
+            </div>
           </div>
-          <div>
-
+          <div className="w-1/3 ">
+            <div className="border-b pb-2"> 
+              <h1 className="font-semibold text-zinc-800 text-center">
+                Completed
+              </h1>
+            </div>
           </div>
         </div>
 

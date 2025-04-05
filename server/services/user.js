@@ -86,30 +86,38 @@ const logout= (req, res) => {
 };
 
 const userDetails = async(req,res)=>{
-
     try {
-        const {user}= req.body;
-        const getDetails = User.findById(User._id)
-            .populate("task")
+        const {user}= req;
+        const getDetails = await User.findById(user._id)
+            .populate("tasks")
             .select("-password")
+        let yetToStart=[];
+        let inprogress=[];
+        let completed=[];
         
         if(getDetails){
             const allTask = getDetails.tasks;
-            let yetToStart=[];
-            let inprogress=[];
-            let completed=[];
-
-            allTask.map((item)=>{
-                if(item.status ==="yettostart"){
-                    yetToStart.push(item)
-                }else if(item.status ==='inprogress'){
+            allTask.forEach((item) => {
+                if (item.status === "yetToStart") {
+                    yetToStart.push(item);
+                } else if (item.status === "inProgress") {
                     inprogress.push(item);
-                }else{
-                        completed.push(item);
+                } else if (item.status === "Completed") {
+                    completed.push(item);
                 }
-            })
+            });
+    
         }
-        return res.status(201).json({success:true,tasks:[{yetToStart},{inprogress},{completed}]})
+        return res.status(201).json({
+            success: true,
+            username: user.username,
+            tasks:
+            [
+                {yetToStart},
+                {inprogress},
+                {completed},
+            ]
+        });
         
     } catch (err) {
         console.error("Login Error:", err);

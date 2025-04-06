@@ -36,7 +36,7 @@ function AddTask({ setAddTaskDiv }) {
             });
             if (res.status == 201) {
                 alert(res.data.message || "Task added successfully!");
-                setAddTaskDiv("hidden");
+                setAddTaskDiv(false);
             } else {
                 alert("Failed to add task");
             }
@@ -113,7 +113,7 @@ function AddTask({ setAddTaskDiv }) {
                         className="text-center w-full bg-red-800 py-2 hover:bg-red-700 transition-all duration-300 text-white rounded"
                         onClick={(e) => {
                             e.preventDefault();
-                            setAddTaskDiv("hidden");
+                            setAddTaskDiv(false);
                         }}
                     >
                         Cancel

@@ -41,31 +41,34 @@ function Dashboard() {
       </div>
 
       {/* Task Area */}
-      <div className="px-4 py-4 flex flex-wrap gap-4 bg-zinc-200 min-h-[89vh]">
-        {/* Yet To Start Column */}
-        <div className="w-full sm:w-1/2 lg:w-1/3">
-          <SetTitle title="Yet To Start" />
-          <div className="pt-2">
-            {tasks[0]?.yetToStart && <YetToStart task={tasks[0].yetToStart} />}
+      <div className="px-4 py-4 bg-zinc-200 min-h-[89vh]">
+        <div className="flex flex-col lg:flex-row lg:gap-6 gap-10">
+          {/* Yet To Start Column */}
+          <div className="w-full lg:w-1/3">
+            <SetTitle title="Yet To Start" />
+            <div className="pt-2">
+              {tasks[0]?.yetToStart && <YetToStart task={tasks[0].yetToStart} />}
+            </div>
           </div>
-        </div>
 
-        {/* In Progress Column */}
-        <div className="w-full sm:w-1/2 lg:w-1/3">
-          <SetTitle title="In Progress" />
-          <div className="pt-2">
-            {tasks[1]?.inprogress && <InProgress task={tasks[1].inprogress} />}
+          {/* In Progress Column */}
+          <div className="w-full lg:w-1/3">
+            <SetTitle title="In Progress" />
+            <div className="pt-2">
+              {tasks[1]?.inprogress && <InProgress task={tasks[1].inprogress} />}
+            </div>
           </div>
-        </div>
 
-        {/* Completed Column */}
-        <div className="w-full sm:w-1/2 lg:w-1/3">
-          <SetTitle title="Completed" />
-          <div className="pt-2">
-            {tasks[2]?.completed && <Completed task={tasks[2].completed} />}
+          {/* Completed Column */}
+          <div className="w-full lg:w-1/3">
+            <SetTitle title="Completed" />
+            <div className="pt-2">
+              {tasks[2]?.completed && <Completed task={tasks[2].completed} />}
+            </div>
           </div>
         </div>
       </div>
+
 
 
       {/* Add Task Modal */}

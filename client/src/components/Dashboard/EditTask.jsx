@@ -8,7 +8,7 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
         description: "",
         priority: "low",
         status: "yetToStart",
-        _id: "" // Added _id to the state
+        _id: "" 
     });
 
     const [loading, setLoading] = useState(false);
@@ -59,11 +59,16 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
 
         try {
             setLoading(true);
-            await axios.put(
-                `http://localhost:1000/task/editTask/${values._id}`, // Use values._id
+            const res = await axios.put(
+                `http://localhost:1000/task/editTask/${values._id}`, 
                 values, 
                 { withCredentials: true }
             );
+            if (res.status == 200) {
+                alert(res.data.message || "Task Edited successfully!");
+            } else {
+                alert("Failed to add task");
+            }
             
             // Clean up and close
             window.sessionStorage.removeItem("editTaskId");
@@ -80,6 +85,34 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
             setLoading(false);
         }
     };
+
+    const deleteTask = async(e,id)=>{
+        e.preventDefault();
+        if (!id) return;
+        try{
+            setLoading(true);
+            const res = await axios.delete(
+                `http://localhost:1000/task/deleteTask/${id}`, 
+                { withCredentials: true }
+            );
+            if (res.status == 200) {
+                alert(res.data.message || "Task Deleted successfully!");
+            } else {
+                alert("Failed to add task");
+            }
+
+            window.sessionStorage.removeItem("editTaskId");
+            setIsEditTaskVisible(false);
+            setEditId(null);
+
+            window.location.reload();
+        }catch(err){
+            console.error("Update error:", err);
+            alert(err.response?.data?.error || "Failed to Delete task");
+        }finally {
+            setLoading(false);
+        }
+    }
 
     return (
         <div className="bg-white rounded px-4 sm:px-6 py-4 sm:py-6 w-full sm:w-[70%] md:w-[50%] lg:w-[40%] mx-auto">
@@ -155,6 +188,7 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
                         type="button"
                         className="text-center w-full bg-red-800 py-2 hover:bg-red-600 transition-all duration-300 text-white rounded disabled:opacity-50"
                         disabled={loading}
+                        onClick={(e)=>deleteTask(e,values._id)}
                     >
                         Delete
                     </button>

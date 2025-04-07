@@ -20,7 +20,7 @@ const taskSchema = new Schema({
     status: {  // Fixed typo from "satus" to "status"
         type: String,
         required: true,
-        enum: ["yetToStart", "inProgress", "Completed"],
+        enum: ["yetToStart", "inProgress", "completed"],
         default: "yetToStart",
     },
 },

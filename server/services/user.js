@@ -102,7 +102,7 @@ const userDetails = async(req,res)=>{
                     yetToStart.push(item);
                 } else if (item.status === "inProgress") {
                     inprogress.push(item);
-                } else if (item.status === "Completed") {
+                } else if (item.status === "completed") {
                     completed.push(item);
                 }
             });

@@ -41,26 +41,32 @@ function Dashboard() {
       </div>
 
       {/* Task Area */}
-      <div className="px-4 py-4 flex gap-4 bg-zinc-200 min-h-[89vh] flex-wrap">
-        <div className="w-full sm:w-1/2 md:w-1/3">
+      <div className="px-4 py-4 flex flex-wrap gap-4 bg-zinc-200 min-h-[89vh]">
+        {/* Yet To Start Column */}
+        <div className="w-full sm:w-1/2 lg:w-1/3">
           <SetTitle title="Yet To Start" />
           <div className="pt-2">
             {tasks[0]?.yetToStart && <YetToStart task={tasks[0].yetToStart} />}
           </div>
         </div>
-        <div className="w-full sm:w-1/2 md:w-1/3">
+
+        {/* In Progress Column */}
+        <div className="w-full sm:w-1/2 lg:w-1/3">
           <SetTitle title="In Progress" />
           <div className="pt-2">
             {tasks[1]?.inprogress && <InProgress task={tasks[1].inprogress} />}
           </div>
         </div>
-        <div className="w-full sm:w-1/2 md:w-1/3">
+
+        {/* Completed Column */}
+        <div className="w-full sm:w-1/2 lg:w-1/3">
           <SetTitle title="Completed" />
           <div className="pt-2">
             {tasks[2]?.completed && <Completed task={tasks[2].completed} />}
           </div>
         </div>
       </div>
+
 
       {/* Add Task Modal */}
       <div className={`w-full ${isAddTaskVisible ? "block" : "hidden"} h-screen fixed top-0 left-0 bg-zinc-800 opacity-85`}></div>
@@ -73,8 +79,6 @@ function Dashboard() {
       <div className={`w-full ${isEditTaskVisible ? "flex" : "hidden"} h-screen fixed top-0 left-0 items-center justify-center`}>
         <EditTask setIsEditTaskVisible={setIsEditTaskVisible} editId={editId} setEditId={setEditId}/>
       </div>
-
-
     </div>
   );
 }

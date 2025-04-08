@@ -16,5 +16,4 @@ const Completed = ({task}) => {
 Completed.propTypes = {
   task: PropTypes.array.isRequired,
 };
-
 export default Completed

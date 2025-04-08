@@ -17,6 +17,10 @@ const userSchema = new Schema({
         type:String,
         required:true
     },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
     tasks:[
         { 
             type: mongoose.Schema.Types.ObjectId, 

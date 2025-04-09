@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const task = require("../models/task");
 
-
 // ✅ Add Task
 const addTask = async (req, res) => {
     try {

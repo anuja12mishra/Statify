@@ -2,7 +2,7 @@ const { validationResult, check } = require("express-validator");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const {sendVerificationEmail} = require("../utils/mail");
 
 const register = async (req, res) => {
     try {
@@ -27,8 +27,9 @@ const register = async (req, res) => {
         // Create new user
         const newUser = new User({ username, email, password: hashPass });
         await newUser.save();
+        await sendVerificationEmail(newUser);
 
-        console.log("New user registered:", { username, email,password }); // ✅ Removed password logging for security
+        //console.log("New user registered:", { username, email,password }); // ✅ Removed password logging for security
 
         return res.status(201).json({ message: "User registered successfully" }); // ✅ Changed 200 → 201 (created)
 
@@ -125,4 +126,4 @@ const userDetails = async(req,res)=>{
     }
 }
 
-module.exports = { register , login,logout,userDetails};
+module.exports = {register,login,logout,userDetails};

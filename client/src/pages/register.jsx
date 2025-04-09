@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
-function Register() {
+import { IoEye, IoEyeOff } from "react-icons/io5"; // 👁️ import icons
 
+function Register() {
   const navigate = useNavigate();
 
   const [values, setValues] = useState({
@@ -11,22 +12,22 @@ function Register() {
     password: ""
   });
 
+  const [showPassword, setShowPassword] = useState(false); // 👁️ toggle state
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:1000/api/v1/register",values);
+      const res = await axios.post("http://localhost:1000/api/v1/register", values);
       console.log(res.data);
       navigate("/login");
     } catch (error) {
-      alert(error.response.data.error);
+      alert(error.response?.data?.error || "Registration failed.");
     }
-    // Handle the form submission logic
-    //console.log(values);
   }
 
   return (
@@ -45,7 +46,7 @@ function Register() {
               name="username"
               required
               placeholder="Username"
-              className="border rounded px-4 py-1 border-zinc-400 w-[100%] outline-none"
+              className="border rounded px-4 py-1 border-zinc-400 w-full outline-none"
               value={values.username}
               onChange={handleChange}
             />
@@ -54,27 +55,39 @@ function Register() {
               name="email"
               required
               placeholder="Gmail"
-              className="border rounded px-4 py-1 border-zinc-400 w-[100%] outline-none"
+              className="border rounded px-4 py-1 border-zinc-400 w-full outline-none"
               value={values.email}
               onChange={handleChange}
             />
-            <input
-              type="password"
-              name="password"
-              required
-              placeholder="Password"
-              className="border rounded px-4 py-1 border-zinc-400 w-[100%] outline-none"
-              value={values.password}
-              onChange={handleChange}
-            />
-            <button
 
+            {/* Password input with eye icon */}
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"} // 👁️ toggle type
+                name="password"
+                required
+                placeholder="Password"
+                className="border rounded px-4 py-1 pr-10 border-zinc-400 w-full outline-none"
+                value={values.password}
+                onChange={handleChange}
+              />
+              <span
+                className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPassword(!showPassword)} // 👁️ toggle logic
+              >
+                {showPassword ? <IoEyeOff size={20} /> : <IoEye size={20} />}
+              </span>
+            </div>
+
+            <button
               type="submit"
-              className="bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-all duration-300">
+              className="bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-700 transition-all duration-300"
+            >
               Register
             </button>
             <p className="text-center font-semibold text-gray-900">
-              Already have an account? <Link className="text-blue-500" to="/login">Login</Link>
+              Already have an account?{" "}
+              <Link className="text-blue-500" to="/login">Login</Link>
             </p>
           </form>
         </div>

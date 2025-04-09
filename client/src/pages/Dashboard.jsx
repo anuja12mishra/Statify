@@ -1,4 +1,4 @@
-import Header from "../components/Dashboard/Header";
+import Header from "../components/Header";
 import AddTask from "../components/Dashboard/AddTask";
 import SetTitle from "../components/Dashboard/SetTitle";
 import { useEffect, useState } from "react";

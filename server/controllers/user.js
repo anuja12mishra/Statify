@@ -2,6 +2,7 @@ const express = require("express");
 const { register, login, logout ,userDetails } = require("../services/user");
 const { body, validationResult } = require("express-validator");
 const authMiddleware = require("../middleware/authMiddleware");
+const {resendVerificationEmail} = require("../utils/mail");
 
 const router = express.Router();
 
@@ -18,5 +19,6 @@ const validateRegister = [
 router.post("/register", validateRegister, register);
 router.post("/login", login);
 router.post("/logout", logout);
-router.get("/user-details",authMiddleware,userDetails)
+router.get("/user-details",authMiddleware,userDetails);
+router.post("/resend-verification-email",authMiddleware,resendVerificationEmail);
 module.exports = router;

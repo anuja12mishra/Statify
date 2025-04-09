@@ -10,8 +10,8 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true, // Prevent duplicate entries
-        match: [/\S+@\S+\.\S+/, 'Invalid email format'], // Regex for email validation
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'Invalid email format'], 
     },
     password:{
         type:String,

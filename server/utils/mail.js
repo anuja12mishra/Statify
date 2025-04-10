@@ -3,13 +3,6 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const EmailVerificationToken = require('../models/email');
 
-// Debug environment variables
-console.log('SMTP Configuration:', {
-    host: 'smtp-relay.brevo.com',
-    user: process.env.SMTP_USER || 'NOT SET',
-    pass: process.env.SMTP_PASS ? '*****' : 'NOT SET'
-});
-
 const transporter = nodemailer.createTransport({
     host: 'smtp-relay.brevo.com',
     port: 587,
@@ -18,22 +11,6 @@ const transporter = nodemailer.createTransport({
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
     },
-    tls: {
-        // Add these for Brevo compatibility
-        ciphers: 'SSLv3',
-        rejectUnauthorized: false // Only for testing, remove in production
-    },
-    logger: true,
-    debug: true
-});
-
-// Verify connection on startup
-transporter.verify(function(error, success) {
-    if (error) {
-        console.error('SMTP Connection Error:', error);
-    } else {
-        console.log('SMTP Server is ready to send emails');
-    }
 });
 
 async function sendVerificationEmail(user) {
@@ -48,7 +25,7 @@ async function sendVerificationEmail(user) {
 
         await verification.save();
 
-        const link = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email/${user._id}/${token}`;
+        const link = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify-email/${user._id}/${token}`;
 
         const mailOptions = {
             from: `"Your App" <${process.env.SENDER_EMAIL || process.env.SMTP_USER}>`,

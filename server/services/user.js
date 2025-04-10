@@ -3,6 +3,8 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {sendVerificationEmail} = require("../utils/mail");
+const EmailVerificationToken = require("../models/email");
+
 
 const register = async (req, res) => {
     try {
@@ -125,5 +127,90 @@ const userDetails = async(req,res)=>{
         return res.status(500).json({ message: "Server error" });
     }
 }
+// routes/verify.js
 
-module.exports = {register,login,logout,userDetails};
+// const verifyEmail = async (req, res) => {
+//   try {
+//     const { userId, token } = req.params;
+
+//     const record = await EmailVerificationToken.findOne({ userId, token });
+//     if (!record || record.expiresAt < Date.now()) {
+//       return res.status(400).send("Token expired or invalid.");
+//     }
+
+//     await User.findByIdAndUpdate(userId, { isVerified: true });
+//     await EmailVerificationToken.findByIdAndDelete(record._id);
+//     console.log("Email verified successfully!");
+//     res.send("Email verified successfully!");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Internal Server Error.");
+//   }
+// };
+// const verifyEmail = async (req, res) => {
+//     try {
+//       const { userId, token } = req.params;
+//       console.log("Verifying email for:", userId, "with token:", token);
+  
+//       const record = await EmailVerificationToken.findOne({ userId, token });
+//       if (!record) {
+//         console.log("Token not found for user");
+//         return res.status(400).send("Invalid verification token.");
+//       }
+      
+//       if (record.expiresAt < Date.now()) {
+//         console.log("Token expired");
+//         return res.status(400).send("Verification token has expired. Please request a new one.");
+//       }
+  
+//       const user = await User.findByIdAndUpdate(userId, { isVerified: true });
+//       if (!user) {
+//         console.log("User not found");
+//         return res.status(404).send("User not found.");
+//       }
+      
+//       await EmailVerificationToken.findByIdAndDelete(record._id);
+//       console.log("Email verification successful for user:", userId);
+  
+//       res.send("Email verified successfully!");
+//     } catch (error) {
+//       console.error("Error during email verification:", error);
+//       res.status(500).send("Internal Server Error. Please try again later.");
+//     }
+// };
+
+const verifyEmail = async (req, res) => {
+    console.log("Email verification endpoint hit with params:", req.params);
+    
+    try {
+      const { userId, token } = req.params;
+  
+      // Log the parameters
+      console.log("Looking for verification record with userId:", userId, "token:", token);
+  
+      const record = await EmailVerificationToken.findOne({ userId, token });
+      console.log("Verification record found:", record ? "Yes" : "No");
+      
+      if (!record) {
+        console.log("No matching verification record found");
+        return res.status(400).send("Token invalid.");
+      }
+      
+      if (record.expiresAt < Date.now()) {
+        console.log("Token expired at:", record.expiresAt, "Current time:", Date.now());
+        return res.status(400).send("Token expired. Please request a new one.");
+      }
+  
+      console.log("Updating user verified status...");
+      await User.findByIdAndUpdate(userId, { isVerified: true });
+      console.log("Deleting verification token...");
+      await EmailVerificationToken.findByIdAndDelete(record._id);
+  
+      console.log("Email verification successful!");
+      res.send("Email verified successfully!");
+    } catch (error) {
+      console.error("Email verification error:", error);
+      res.status(500).send("Internal Server Error.");
+    }
+  };
+module.exports = {register,login,logout,userDetails,verifyEmail};

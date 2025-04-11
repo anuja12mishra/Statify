@@ -124,7 +124,7 @@ const userDetails = async(req,res)=>{
         
     } catch (err) {
         console.error("Login Error:", err);
-        return res.status(500).json({ message: "Server error" });
+        return res.status(500).json({ success:false,message: "Server error" });
     }
 }
 // routes/verify.js
@@ -186,10 +186,10 @@ const verifyEmail = async (req, res) => {
       const { userId, token } = req.params;
   
       // Log the parameters
-      console.log("Looking for verification record with userId:", userId, "token:", token);
+      //console.log("Looking for verification record with userId:", userId, "token:", token);
   
       const record = await EmailVerificationToken.findOne({ userId, token });
-      console.log("Verification record found:", record ? "Yes" : "No");
+      //console.log("Verification record found:", record ? "Yes" : "No");
       
       if (!record) {
         console.log("No matching verification record found");
@@ -198,19 +198,19 @@ const verifyEmail = async (req, res) => {
       
       if (record.expiresAt < Date.now()) {
         console.log("Token expired at:", record.expiresAt, "Current time:", Date.now());
-        return res.status(400).send("Token expired. Please request a new one.");
+        return res.status(400).json({success:false,message:"Token expired. Please request a new one."});
       }
   
-      console.log("Updating user verified status...");
+      //console.log("Updating user verified status...");
       await User.findByIdAndUpdate(userId, { isVerified: true });
-      console.log("Deleting verification token...");
+      //console.log("Deleting verification token...");
       await EmailVerificationToken.findByIdAndDelete(record._id);
   
-      console.log("Email verification successful!");
-      res.send("Email verified successfully!");
+      //console.log("Email verification successful!");
+      res.status(200),json({success:true,message:"Email verified successfully!"});
     } catch (error) {
       console.error("Email verification error:", error);
-      res.status(500).send("Internal Server Error.");
+      res.status(500).json({success:false,message:"Internal Server Error."});
     }
   };
 module.exports = {register,login,logout,userDetails,verifyEmail};

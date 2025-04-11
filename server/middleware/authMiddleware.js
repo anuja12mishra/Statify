@@ -14,14 +14,14 @@ const authMiddleware = async (req, res, next) => {
         const user = await User.findById(decode.id);
 
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ sucess:true,message: "User not found" });
         }
 
         req.user = user; 
         next();
     } catch (err) {
-        console.log("Invalid token", err);
-        return res.status(401).json({ message: "Invalid token" });
+        //console.log("Invalid token", err);
+        return res.status(401).json({ sucess:false,message: "Invalid token" });
     }
 };
 module.exports = authMiddleware;

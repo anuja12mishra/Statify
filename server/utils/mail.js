@@ -41,7 +41,7 @@ async function sendVerificationEmail(user) {
         };
 
         const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.messageId);
+        //console.log('Email sent:', info.messageId);
         return info;
     } catch (error) {
         console.error('Error sending verification email:', error);
@@ -56,10 +56,11 @@ async function resendVerificationEmail(req, res) {
         }
 
         await sendVerificationEmail(req.user);
-        res.json({ message: 'Verification email sent again.' });
+        res.json({ success:true,message: 'Verification email sent again.' });
     } catch (err) {
         console.error('Email sending error:', err);
-        res.status(500).json({ 
+        res.status(500).json({
+            successs:false, 
             message: 'Error sending email.',
             error: process.env.NODE_ENV === 'development' ? err.message : null
         });

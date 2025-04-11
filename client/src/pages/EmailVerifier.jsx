@@ -17,12 +17,12 @@ const EmailVerifier = () => {
           return;
         }
   
-        const response = await axios.get(`http://localhost:1000/api/v1/verify-email/${userId}/${token}`, {
+        const res = await axios.get(`http://localhost:1000/api/v1/verify-email/${userId}/${token}`, {
           withCredentials: true,
         });
   
-        setStatus("success");
-        setMessage("Email verified successfully!");
+        setStatus(res.success);
+        setMessage(res.message);
   
         const timeout = setTimeout(() => navigate("/dashboard"), 1000*5);
         

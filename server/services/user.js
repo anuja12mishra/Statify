@@ -207,7 +207,7 @@ const verifyEmail = async (req, res) => {
       await EmailVerificationToken.findByIdAndDelete(record._id);
   
       //console.log("Email verification successful!");
-      res.status(200),json({success:true,message:"Email verified successfully!"});
+      res.status(200).json({success:true,message:"Email verified successfully!"});
     } catch (error) {
       console.error("Email verification error:", error);
       res.status(500).json({success:false,message:"Internal Server Error."});

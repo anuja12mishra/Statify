@@ -7,7 +7,6 @@ const addTask = async (req, res) => {
     try {
         const { title, description, priority, status } = req.body;
         const user = req.user;
-
         if (!title || !description) {
             return res.status(400).json({ error: "All fields are required" });
         }

@@ -51,6 +51,7 @@ async function sendVerificationEmail(user) {
 
 async function resendVerificationEmail(req, res) {
     try {
+        console.log("req.user.isVerified",req.user.isVerified);
         if (req.user.isVerified) {
             return res.status(400).json({ message: 'User already verified.' });
         }

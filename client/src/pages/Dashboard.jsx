@@ -7,12 +7,22 @@ import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 import axios from "axios";
 import EditTask from "../components/Dashboard/EditTask";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false); 
   const [isEditTaskVisible, setIsEditTaskVisible] = useState(false); 
   const [editId,setEditId] = useState(null);
-  const [tasks, setTasks] = useState({}); 
+  const [tasks, setTasks] = useState({});
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (localStorage.getItem("userLoggedIn")) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  }, []); 
 
   useEffect(() => {
     const fetchUserDetails = async () => {

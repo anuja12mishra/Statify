@@ -34,16 +34,19 @@ function AddTask({ setAddTaskDiv }) {
                 priority: "low",
                 status: "yetToStart"
             });
+            console.log(res.data.message);
             if (res.status == 201) {
-                alert(res.data.message || "Task added successfully!");
                 setAddTaskDiv(false);
-            } else {
+            }else if(res.status == 430){
+                alert("please verify your email");
+            }
+            else {
                 alert("Failed to add task");
             }
 
         } catch (err) {
-            console.log(err);
-            alert(err.response?.data?.error || "An error occurred");
+            //console.log(err);
+            alert(err.response?.data?.message || "An error occurred");
         }
     };
 

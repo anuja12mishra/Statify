@@ -4,7 +4,7 @@ const User = require("../models/user");
 // ✅ Middleware to authenticate users
 const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.cookies.statiyUserToken; // ✅ Corrected req parameter
+        const token = req.cookies.statiyUserToken;
 
         if (!token) {
             return res.status(401).json({ error: "new-user" });

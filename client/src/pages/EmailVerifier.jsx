@@ -21,15 +21,18 @@ const EmailVerifier = () => {
           withCredentials: true,
         });
   
-        setStatus(res.success);
-        setMessage(res.message);
+        // Access response data properly
+        setStatus(res.data.success ? "success" : "error");
+        setMessage(res.data.message);
   
-        const timeout = setTimeout(() => navigate("/dashboard"), 1000*5);
-        
-        return () => clearTimeout(timeout); // clean up
+        // Only navigate if successful
+        if (res.data.success) {
+          const timeout = setTimeout(() => {navigate("/dashboard")}, 5000);
+          return () => clearTimeout(timeout); // clean up
+        }
       } catch (err) {
         setStatus("error");
-        setMessage(err.response?.data || "Verification failed. Please try again or contact support.");
+        setMessage(err.response?.data?.message || "Verification failed. Please try again or contact support.");
       }
     };
   

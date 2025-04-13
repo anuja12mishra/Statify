@@ -1,6 +1,7 @@
 import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
+
 function Footer() {
   const currentYear = new Date().getFullYear();
 
@@ -29,9 +30,8 @@ function Footer() {
           <div className="col-span-1">
             <h4 className="font-medium text-gray-800 mb-4">Support</h4>
             <ul className="space-y-2">
-              <li><Link to="/help" className="text-gray-600 hover:text-blue-600 text-sm">Help Center</Link></li>
               <li><Link to="/faq" className="text-gray-600 hover:text-blue-600 text-sm">FAQ</Link></li>
-              <li><Link to="/contact" className="text-gray-600 hover:text-blue-600 text-sm">Contact Us</Link></li>
+              <li><Link to="/contact-us" className="text-gray-600 hover:text-blue-600 text-sm">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -59,8 +59,8 @@ function Footer() {
               © {currentYear} TaskMaster. All rights reserved.
             </p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <Link to="/terms" className="text-sm text-gray-500 hover:text-gray-700">Terms of Service</Link>
-              <Link to="/privacy" className="text-sm text-gray-500 hover:text-gray-700">Privacy Policy</Link>
+              <Link to="/terms-Of-service" className="text-sm text-gray-500 hover:text-gray-700" >Terms of Service</Link>
+              <Link to="/privacy-policy" className="text-sm text-gray-500 hover:text-gray-700">Privacy Policy</Link>
             </div>
           </div>
         </div>

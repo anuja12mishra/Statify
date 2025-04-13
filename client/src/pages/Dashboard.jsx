@@ -7,7 +7,7 @@ import InProgress from "../components/Dashboard/InProgress";
 import Completed from "../components/Dashboard/Completed";
 import axios from "axios";
 import EditTask from "../components/Dashboard/EditTask";
-import Footer from "../components/Dashboard/Footer";
+import Footer from "../components/Footer";
 
 function Dashboard() {
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false); 

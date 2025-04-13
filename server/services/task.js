@@ -10,12 +10,12 @@ const addTask = async (req, res) => {
         if (!title || !description) {
             return res.status(400).json({ error: "All fields are required" });
         }
-        if (title.length < 6) {
-            return res.status(400).json({ error: "The title must have at least 6 characters" });
-        }
-        if (description.length < 6) {
-            return res.status(400).json({ error: "The description must have at least 6 characters" });
-        }
+        // if (title.length < 6) {
+        //     return res.status(400).json({ error: "The title must have at least 6 characters" });
+        // }
+        // if (description.length < 6) {
+        //     return res.status(400).json({ error: "The description must have at least 6 characters" });
+        // }
         if (!priority || !['low', 'medium', 'high'].includes(priority.toLowerCase())) {
             return res.status(400).json({ error: "Invalid priority value" });
         }
@@ -43,15 +43,15 @@ const editTask = async (req, res) => {
         const { title, description, priority, status } = req.body;
         const user = req.user; // ✅ Access authenticated user
 
-        if (!title || !description) {
-            return res.status(400).json({ error: "All fields are required" });
-        }
-        if (title.length < 6) {
-            return res.status(400).json({ error: "The title must have at least 6 characters" });
-        }
-        if (description.length < 6) {
-            return res.status(400).json({ error: "The description must have at least 6 characters" });
-        }
+        // if (!title || !description) {
+        //     return res.status(400).json({ error: "All fields are required" });
+        // }
+        // if (title.length < 6) {
+        //     return res.status(400).json({ error: "The title must have at least 6 characters" });
+        // }
+        // if (description.length < 6) {
+        //     return res.status(400).json({ error: "The description must have at least 6 characters" });
+        // }
 
         const updatedTask = await task.findByIdAndUpdate(
             id,

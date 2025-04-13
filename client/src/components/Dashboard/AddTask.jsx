@@ -51,25 +51,29 @@ function AddTask({ setAddTaskDiv }) {
     };
 
     return (
-        <div className="bg-white rounded px-4 sm:px-6 py-4 sm:py-6 w-full sm:w-[70%] md:w-[50%] lg:w-[40%] mx-auto">
-            <h1 className="text-center font-semibold text-xl sm:text-2xl lg:text-3xl">Add Task</h1>
-            <hr className="mb-4 mt-2" />
-            <form method="POST" className="flex flex-col gap-4 md:gap-6" onSubmit={addTask}>
-                <input
-                    type="text"
-                    className="border px-3 py-2 rounded border-zinc-300 outline-none w-full"
-                    placeholder="Title"
-                    name="title"
-                    value={values.title}
-                    onChange={change}
-                />
+        <div className="bg-white rounded-xl shadow-lg px-6 py-6 w-full max-w-md mx-auto">
+            <h1 className="text-center font-semibold text-2xl text-blue-600 mb-4">Add Task</h1>
+            <div className="h-px w-full bg-gray-100 mb-6"></div>
+            
+            <form method="POST" className="flex flex-col gap-5" onSubmit={addTask}>
+                <div className="group">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Task Title</label>
+                    <input
+                        type="text"
+                        className="border px-4 py-3 rounded-lg border-gray-300 outline-none w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="Enter task title"
+                        name="title"
+                        value={values.title}
+                        onChange={change}
+                    />
+                </div>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Priority Section */}
                     <div className="w-full">
-                        <h3 className="mb-2 text-sm sm:text-base">Select Priority</h3>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">Priority</label>
                         <select
-                            className="border px-3 py-2 rounded border-zinc-300 outline-none w-full"
+                            className="border px-4 py-3 rounded-lg border-gray-300 outline-none w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all"
                             name="priority"
                             value={values.priority}
                             onChange={change}
@@ -82,9 +86,9 @@ function AddTask({ setAddTaskDiv }) {
 
                     {/* Status Section */}
                     <div className="w-full">
-                        <h3 className="mb-2 text-sm sm:text-base">Select Status</h3>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">Status</label>
                         <select
-                            className="border px-3 py-2 rounded border-zinc-300 outline-none w-full"
+                            className="border px-4 py-3 rounded-lg border-gray-300 outline-none w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white transition-all"
                             name="status"
                             value={values.status}
                             onChange={change}
@@ -96,24 +100,28 @@ function AddTask({ setAddTaskDiv }) {
                     </div>
                 </div>
 
-                <textarea
-                    name="description"
-                    placeholder="Description"
-                    className="border px-3 py-2 rounded border-zinc-300 outline-none w-full"
-                    value={values.description}
-                    onChange={change}
-                />
+                <div className="group">
+                    <label className="text-sm font-medium text-gray-700 mb-1 block">Description</label>
+                    <textarea
+                        name="description"
+                        placeholder="Describe your task"
+                        rows="4"
+                        className="border px-4 py-3 rounded-lg border-gray-300 outline-none w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                        value={values.description}
+                        onChange={change}
+                    />
+                </div>
 
-                <div className="flex items-center justify-between gap-4 flex-col sm:flex-row">
+                <div className="flex items-center justify-between gap-4 pt-2">
                     <button  
                         type="submit"
-                        className="text-center w-full bg-blue-800 py-2 hover:bg-blue-700 transition-all duration-300 text-white rounded"
+                        className="text-center w-full bg-blue-600 py-3 hover:bg-blue-700 transition-all duration-300 text-white rounded-lg font-medium shadow-sm"
                     >
                         Add Task
                     </button>
                     <button  
                         type="button"
-                        className="text-center w-full bg-red-800 py-2 hover:bg-red-700 transition-all duration-300 text-white rounded"
+                        className="text-center w-full bg-white py-3 hover:bg-gray-50 transition-all duration-300 text-gray-700 rounded-lg font-medium border border-gray-300"
                         onClick={(e) => {
                             e.preventDefault();
                             setAddTaskDiv(false);

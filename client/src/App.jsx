@@ -1,13 +1,13 @@
 import { Routes, Route,Navigate} from "react-router-dom";
 import Register from "./pages/RegisterPage";
-import Login from "./pages/Login";
+import Login from "./pages/LoginPage";
 import Dashboard from './pages/Dashboard';
 import EmailVerifier from "./pages/EmailVerifier";
-import FAQ from "./pages/Faq";
+import FAQ from "./pages/FAQPage";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./pages/ContactUs";
-import Profile from "./pages/Profile";
+import Profile from "./pages/ProfilePage";
 import ResetPassword from "./pages/ResetPassword";
 function App() {
   return (

@@ -27,7 +27,7 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const res = await axios.get(`http://localhost:1000/task/getTask/${editId}`, {
+                const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/task/getTask/${editId}`, {
                     withCredentials: true,
                 });
                 const data = res.data.taskDetails;

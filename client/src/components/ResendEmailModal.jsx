@@ -6,7 +6,7 @@ function ResendEmailModal({ setShowResend }) {
   const handleResend = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/resend-verification-email",
+        `${import.meta.env.VITE_BASE_URL}/api/v1/resend-verification-email`,
         {},
         { withCredentials: true }
       );
@@ -31,7 +31,7 @@ function ResendEmailModal({ setShowResend }) {
     }
   };
 
-  
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transform transition-all">

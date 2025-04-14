@@ -17,7 +17,7 @@ const EmailVerifier = () => {
           return;
         }
   
-        const res = await axios.get(`http://localhost:1000/api/v1/verify-email/${userId}/${token}`, {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/verify-email/${userId}/${token}`, {
           withCredentials: true,
         });
   

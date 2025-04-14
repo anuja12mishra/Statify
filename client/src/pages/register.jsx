@@ -22,7 +22,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:1000/api/v1/register", values);
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/register`, values);
       console.log(res.data);
       navigate("/login");
     } catch (error) {

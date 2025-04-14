@@ -71,7 +71,7 @@ function ResetPassword() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:1000/reset/verify-reset-otp",
+        `${import.meta.env.VITE_BASE_URL}/reset/verify-reset-otp`,
         values,
         { withCredentials: true }
       );

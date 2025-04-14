@@ -20,7 +20,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const res = await axios.get("http://localhost:1000/api/v1/user-details", {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user-details`, {
           withCredentials: true,
         });
         setTasks(res.data.tasks);

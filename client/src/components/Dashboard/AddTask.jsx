@@ -27,7 +27,7 @@ function AddTask({ setAddTaskDiv }) {
         }
 
         try {
-            const res = await axios.post("http://localhost:1000/task/addTask", values, { withCredentials: true });
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/task/addTask`, values, { withCredentials: true });
             setValues({
                 title: "",
                 description: "",

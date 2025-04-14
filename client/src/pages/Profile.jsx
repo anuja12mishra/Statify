@@ -24,7 +24,7 @@ function Profile() {
         const fetchUserProfile = async () => {
             try {
                 setIsLoading(true);
-                const res = await axios.get("http://localhost:1000/api/v1/user-profile", {
+                const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user-profile`, {
                     withCredentials: true,
                 });
 
@@ -53,7 +53,7 @@ function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put("http://localhost:1000/api/v1/update-profile", formData, {
+            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/v1/update-profile`, formData, {
                 withCredentials: true,
             });
             setUser({

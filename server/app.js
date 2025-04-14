@@ -8,10 +8,11 @@ const passwordResetRoutes = require("./controllers/passwordReset");
 require("dotenv").config();
 require("./connection/conn");
 
-// Enable trust proxy
-app.set('trust proxy', true);
+
 // Express initialize
 const app = express();
+// Enable trust proxy
+app.set('trust proxy', true);
 app.use(express.json());
 app.use(
     cors({

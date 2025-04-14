@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 
 const SetTitle = ({title}) => {
   return (
-    <div className="border-b pb-2"> 
-      <h1 className="font-semibold text-zinc-800 text-center">
+    <div className="border-b border-gray-100 pb-3"> 
+      <h1 className="font-semibold text-gray-800 text-center text-lg">
         {title}
       </h1>
     </div>
@@ -11,8 +11,7 @@ const SetTitle = ({title}) => {
 }
 
 SetTitle.propTypes = {
-  title: PropTypes.string.isRequired, // Ensures title is a required string
+  title: PropTypes.string.isRequired,
 };
-
 
 export default SetTitle;

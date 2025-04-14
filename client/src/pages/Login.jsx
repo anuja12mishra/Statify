@@ -22,7 +22,7 @@ function Login() {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:1000/api/v1/login",
+        `${import.meta.env.VITE_BASE_URL}/api/v1/login`,
         values,
         { withCredentials: true }
       );

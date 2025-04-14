@@ -10,14 +10,28 @@ function ResendEmailModal({ setShowResend }) {
         {},
         { withCredentials: true }
       );
-      alert(res.data.message);
-      setShowResend(false);
+  
+      if (res.status === 200) {
+        alert(res.data.message); // Email sent successfully
+        setShowResend(false);
+      }
     } catch (err) {
-      console.error("Error resending email:", err);
-      alert("Error resending email verification link.");
+      // Handle non-2xx errors
+      if (err.response) {
+        if (err.response.status === 400) {
+          alert(err.response.data.message); // User already verified
+        } else {
+          alert("Unexpected error: " + err.response.data.message || "Something went wrong!");
+        }
+      } else {
+        // Handle network or unknown errors
+        console.error("Error resending email:", err);
+        alert("Error resending email verification link. Please try again later.");
+      }
     }
   };
 
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 overflow-hidden transform transition-all">
@@ -29,13 +43,13 @@ function ResendEmailModal({ setShowResend }) {
             <h2 className="text-white text-xl font-bold">Resend Email Verification</h2>
           </div>
         </div>
-        
+
         <div className="p-6">
           <p className="text-gray-600 mb-6">
-            Click the button below to resend your verification email. 
+            Click the button below to resend your verification email.
             This will send a new link to your registered email address.
           </p>
-          
+
           <div className="flex flex-col space-y-3">
             <button
               onClick={handleResend}
@@ -44,7 +58,7 @@ function ResendEmailModal({ setShowResend }) {
               <IoMailUnreadOutline className="mr-2" />
               Resend Verification Email
             </button>
-            
+
             <button
               onClick={() => setShowResend(false)}
               className="w-full py-3 border border-gray-300 text-gray-700 rounded-md font-medium hover:bg-gray-100 transition-all duration-300"

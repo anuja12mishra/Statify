@@ -37,7 +37,7 @@ function AddTask({ setAddTaskDiv }) {
             console.log(res.data.message);
             if (res.status == 201) {
                 setAddTaskDiv(false);
-            }else if(res.status == 430){
+            }else if(res.status == 403){
                 alert("please verify your email");
             }
             else {

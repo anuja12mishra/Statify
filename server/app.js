@@ -3,8 +3,11 @@ const cors = require("cors");
 const cookie = require("cookie-parser")
 const userApis = require("./controllers/user"); 
 const taskApis = require("./controllers/task"); 
+const limiter = require("./utils/rate-limiting");
+const passwordResetRoutes = require("./controllers/passwordReset");
 require("dotenv").config();
 require("./connection/conn");
+
 
 // Express initialize
 const app = express();
@@ -16,9 +19,10 @@ app.use(
     })
   );
 app.use(cookie());
-
+app.use(limiter);
 app.use("/api/v1", userApis); 
 app.use("/task",taskApis);
+app.use('/reset', passwordResetRoutes);
 
 app.listen(process.env.PORT, () => {
     console.log("server started on port", process.env.PORT);

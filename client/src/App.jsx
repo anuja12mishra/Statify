@@ -7,6 +7,8 @@ import FAQ from "./pages/Faq";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./pages/ContactUs";
+import Profile from "./pages/Profile";
+import ResetPassword from "./pages/ResetPassword";
 function App() {
   return (
     <>
@@ -43,6 +45,14 @@ function App() {
         <Route
           path="/contact-us"
           element={<ContactUs />}
+        />
+        <Route
+          path="/profile"
+          element={<Profile />}
+        />
+        <Route
+          path="/reset-pass"
+          element={<ResetPassword />}
         />
       </Routes>
     </>

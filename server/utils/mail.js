@@ -57,7 +57,7 @@ async function resendVerificationEmail(req, res) {
         }
 
         await sendVerificationEmail(req.user);
-        res.json({ success:true,message: 'Verification email sent again.' });
+        res.status(200).json({ success:true,message: 'Verification email sent again.' });
     } catch (err) {
         //console.error('Email sending error:', err);
         res.status(500).json({

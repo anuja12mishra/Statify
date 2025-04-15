@@ -22,13 +22,31 @@ function Dashboard() {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user-details`, {
           withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          }
         });
         setTasks(res.data.tasks);
-        setUser(res.data.user); // Assuming your API returns user data
+        setUser(res.data.user);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching user details:", err);
+        if (err.response?.status === 401) {
+          // Handle unauthorized - redirect to login or show message
+          window.location.href = '/login';
+        }
       }
     };
+    // const fetchUserDetails = async () => {
+    //   try {
+    //     const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user-details`, {
+    //       withCredentials: true,
+    //     });
+    //     setTasks(res.data.tasks);
+    //     setUser(res.data.user); // Assuming your API returns user data
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // };
 
     fetchUserDetails();
 

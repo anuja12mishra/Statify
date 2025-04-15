@@ -7,16 +7,15 @@ import TaskCompletionChart from '../components/Profile/TaskCompletionChart';
 
 function Profile() {
     const [user, setUser] = useState({
-        username: 'aj',
-        email: 'aj@gmail.com',
-        joinDate: '2023-09-15T00:00:00.000Z',
-        totalTasks: 5,
-        completedTasks: 2,
+        username: 'user-name',
+        email: 'user-email',
+        joinDate: '------------------',
+        totalTasks: 0,
+        completedTasks: 0,
     });
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        email: '',
     });
     const [isLoading, setIsLoading] = useState(true);
 

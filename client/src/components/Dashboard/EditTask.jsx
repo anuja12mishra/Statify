@@ -60,7 +60,7 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
         try {
             setLoading(true);
             const res = await axios.put(
-                `http://localhost:1000/task/editTask/${values._id}`, 
+                `${import.meta.env.VITE_BASE_URL}/task/editTask/${values._id}`, 
                 values, 
                 { withCredentials: true }
             );
@@ -92,7 +92,7 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
         try{
             setLoading(true);
             const res = await axios.delete(
-                `http://localhost:1000/task/deleteTask/${id}`, 
+                `${import.meta.env.VITE_BASE_URL}/task/deleteTask/${id}`, 
                 { withCredentials: true }
             );
             if (res.status == 200) {

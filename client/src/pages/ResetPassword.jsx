@@ -9,7 +9,7 @@ function ResetPassword() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try{
-        const res = axios.post("http://localhost:1000/reset/send-reset-otp",{ withCredentials: true,})
+        const res = axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`,{ withCredentials: true,})
         console.log(res);
       }catch(err){
         alert(err);

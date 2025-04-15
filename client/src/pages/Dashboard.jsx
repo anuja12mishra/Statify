@@ -9,15 +9,28 @@ import axios from "axios";
 import EditTask from "../components/Dashboard/EditTask";
 import Footer from "../components/Footer";
 import { IoAddCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [isAddTaskVisible, setIsAddTaskVisible] = useState(false); 
   const [isEditTaskVisible, setIsEditTaskVisible] = useState(false); 
   const [editId, setEditId] = useState(null);
   const [tasks, setTasks] = useState({});
-  const [user, setUser] = useState(null); // Add state for user data
+  const [user, setUser] = useState(null); 
+  const navigate = useNavigate();
 
   useEffect(() => {
+
+    const checkIsAuthorize = async ()=>{
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
+        withCredentials: true,
+      });
+      if(res.status != 200){
+        navigate("/login");
+      }
+    }
+    checkIsAuthorize();
+
     const fetchUserDetails = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/user-details`, {

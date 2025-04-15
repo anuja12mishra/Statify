@@ -184,58 +184,6 @@ const userDetails = async (req, res) => {
         });
     }
 }
-// routes/verify.js
-
-// const verifyEmail = async (req, res) => {
-//   try {
-//     const { userId, token } = req.params;
-
-//     const record = await EmailVerificationToken.findOne({ userId, token });
-//     if (!record || record.expiresAt < Date.now()) {
-//       return res.status(400).send("Token expired or invalid.");
-//     }
-
-//     await User.findByIdAndUpdate(userId, { isVerified: true });
-//     await EmailVerificationToken.findByIdAndDelete(record._id);
-//     console.log("Email verified successfully!");
-//     res.send("Email verified successfully!");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).send("Internal Server Error.");
-//   }
-// };
-// const verifyEmail = async (req, res) => {
-//     try {
-//       const { userId, token } = req.params;
-//       console.log("Verifying email for:", userId, "with token:", token);
-
-//       const record = await EmailVerificationToken.findOne({ userId, token });
-//       if (!record) {
-//         console.log("Token not found for user");
-//         return res.status(400).send("Invalid verification token.");
-//       }
-
-//       if (record.expiresAt < Date.now()) {
-//         console.log("Token expired");
-//         return res.status(400).send("Verification token has expired. Please request a new one.");
-//       }
-
-//       const user = await User.findByIdAndUpdate(userId, { isVerified: true });
-//       if (!user) {
-//         console.log("User not found");
-//         return res.status(404).send("User not found.");
-//       }
-
-//       await EmailVerificationToken.findByIdAndDelete(record._id);
-//       console.log("Email verification successful for user:", userId);
-
-//       res.send("Email verified successfully!");
-//     } catch (error) {
-//       console.error("Error during email verification:", error);
-//       res.status(500).send("Internal Server Error. Please try again later.");
-//     }
-// };
-
 const verifyEmail = async (req, res) => {
     console.log("Email verification endpoint hit with params:", req.params);
 
@@ -302,10 +250,16 @@ const getUserProfile = async (req, res) => {
         }
 
         // Count tasks (you'll need to implement these counts based on your DB)
-        const totalTasks = await task.countDocuments({ _id: { $in: req.user.tasks } });
-        const completedTasks = await task.countDocuments({ 
-            _id: { $in: req.user.tasks },
-            status: 'completed' 
+        const totalTasks = await task.countDocuments({
+            _id: {
+                $in: req.user.tasks
+            }
+        });
+        const completedTasks = await task.countDocuments({
+            _id: {
+                $in: req.user.tasks
+            },
+            status: 'completed'
         });
 
         // Format the response
@@ -335,7 +289,9 @@ const getUserProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
     try {
-        const { name } = req.body;
+        const {
+            name
+        } = req.body;
 
         // Basic validation
         if (!name) {
@@ -354,7 +310,9 @@ const updateUserProfile = async (req, res) => {
         }
 
         // Check if the new username is already taken
-        const isUserNameExists = await User.findOne({ username: name });
+        const isUserNameExists = await User.findOne({
+            username: name
+        });
         if (isUserNameExists) {
             return res.status(400).json({
                 success: false,
@@ -364,9 +322,12 @@ const updateUserProfile = async (req, res) => {
 
         // Update user profile
         const updatedUser = await User.findByIdAndUpdate(
-            req.user._id,
-            { username: name },
-            { new: true, select: '-password -tasks -isVerified -__v' }
+            req.user._id, {
+                username: name
+            }, {
+                new: true,
+                select: '-password -tasks -isVerified -__v'
+            }
         );
 
         if (!updatedUser) {

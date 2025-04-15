@@ -7,6 +7,17 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    const checkIsAuthorize = async ()=>{
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
+        withCredentials: true,
+      });
+      if(res.status != 200){
+        navigate("/login");
+      }
+    }
+    checkIsAuthorize();
+
     const fetchUserProfile = async () => {
       try{
         const res = axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`,{ withCredentials: true,})

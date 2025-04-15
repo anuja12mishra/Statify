@@ -22,7 +22,7 @@ const TaskCard = ({ data }) => {
   
   return (
     <button 
-      className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 w-full p-5 text-left mb-3 border border-gray-100 group"
+      className="bg-white rounded-xl shadow-sm hover:shadow-md hover:cursor-pointer transition-all duration-300 w-full p-5 text-left mb-3 border border-gray-100 group"
       onClick={(e) => showEditTask(e, data._id)}
     >
       {/* Header with Task Name and Priority */}

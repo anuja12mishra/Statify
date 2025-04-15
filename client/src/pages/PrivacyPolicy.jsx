@@ -1,10 +1,25 @@
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import axios from "axios";
 
 function PrivacyPolicy() {
   const lastUpdated = "April 10, 2025";
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkIsAuthorize = async ()=>{
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
+        withCredentials: true,
+      });
+      if(res.status != 200){
+        navigate("/login");
+      }
+    }
+    checkIsAuthorize();
+  }, [])
+
 
   return (
     <div className="w-full min-h-screen bg-gray-50 flex flex-col">

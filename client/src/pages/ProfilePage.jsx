@@ -52,7 +52,7 @@ function Profile() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/api/v1/update-profile`, formData, {
+            await axios.put(`${import.meta.env.VITE_BASE_URL}/api/v1/update-profile`, formData, {
                 withCredentials: true,
             });
             setUser({

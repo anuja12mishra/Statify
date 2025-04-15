@@ -1,4 +1,4 @@
-import { Routes, Route,Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/RegisterPage";
 import Login from "./pages/LoginPage";
 import Dashboard from './pages/Dashboard';
@@ -9,6 +9,7 @@ import TermsOfService from "./pages/TermsOfService";
 import ContactUs from "./pages/ContactUs";
 import Profile from "./pages/ProfilePage";
 import ResetPassword from "./pages/ResetPassword";
+import ErrorPage from "./pages/error";
 function App() {
   return (
     <>
@@ -54,8 +55,9 @@ function App() {
           path="/reset-pass"
           element={<ResetPassword />}
         />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </>
   )
 }
-export default App
+export default App;

@@ -1,8 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 function ContactUs() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkIsAuthorize = async ()=>{
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
+        withCredentials: true,
+      });
+      if(res.status != 200){
+        navigate("/login");
+      }
+    }
+    checkIsAuthorize();
+  }, [])
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',

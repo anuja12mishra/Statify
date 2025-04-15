@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkIsAuthorize = async ()=>{
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
+        withCredentials: true,
+      });
+      if(res.status != 200){
+        navigate("/login");
+      }
+    }
+    checkIsAuthorize();
+  }, [])
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);

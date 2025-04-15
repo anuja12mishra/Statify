@@ -20,6 +20,7 @@ const Header = () => {
         {},
         { withCredentials: true }
       );
+      document.cookie = "statiyUserToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       alert(res.data.message);
       localStorage.removeItem("userLoggedIn");
       navigate("/login");

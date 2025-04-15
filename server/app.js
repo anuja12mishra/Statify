@@ -5,6 +5,7 @@ const userApis = require("./controllers/user");
 const taskApis = require("./controllers/task"); 
 const limiter = require("./utils/rate-limiting");
 const passwordResetRoutes = require("./controllers/passwordReset");
+const isAuthorize = require("./controllers/authorization")
 require("dotenv").config();
 require("./connection/conn");
 
@@ -22,6 +23,7 @@ app.use(
   );
 app.use(cookie());
 app.use(limiter);
+app.use("/check",isAuthorize);
 app.use("/api/v1", userApis); 
 app.use("/task",taskApis);
 app.use('/reset', passwordResetRoutes);

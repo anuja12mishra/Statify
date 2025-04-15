@@ -335,34 +335,37 @@ const getUserProfile = async (req, res) => {
 
 const updateUserProfile = async (req, res) => {
     try {
-        const { name, email } = req.body;
-        
+        const { name } = req.body;
+
         // Basic validation
-        if (!name || !email) {
+        if (!name) {
             return res.status(400).json({
                 success: false,
-                message: "Name and email are required"
+                message: "Name is required"
             });
         }
 
-        // Check if email is being changed to one that already exists
-        if (email !== req.user.email) {
-            const emailExists = await User.findOne({ email });
-            if (emailExists) {
-                return res.status(400).json({
-                    success: false,
-                    message: "Email already in use"
-                });
-            }
+        // Check if the new username is the same as the current one
+        if (name === req.user.username) {
+            return res.status(400).json({
+                success: false,
+                message: "It is the same username"
+            });
         }
 
-        // Update user
+        // Check if the new username is already taken
+        const isUserNameExists = await User.findOne({ username: name });
+        if (isUserNameExists) {
+            return res.status(400).json({
+                success: false,
+                message: "Username already in use by another user"
+            });
+        }
+
+        // Update user profile
         const updatedUser = await User.findByIdAndUpdate(
             req.user._id,
-            { 
-                username: name,
-                email 
-            },
+            { username: name },
             { new: true, select: '-password -tasks -isVerified -__v' }
         );
 
@@ -375,7 +378,7 @@ const updateUserProfile = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Profile updated successfully",
+            message: "Profile name updated successfully",
             user: updatedUser
         });
 

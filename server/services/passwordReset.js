@@ -19,21 +19,28 @@ const transporter = nodemailer.createTransport({
 async function sendPasswordResetEmail(req, res) {
     try {
         const email = req.user.email;
-        
+
         // Find user by email
-        const user = await User.findOne({ email });
+        const user = await User.findOne({
+            email
+        });
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
         }
 
         // Generate 6-digit OTP
         const otp = Math.floor(100000 + Math.random() * 900000);
-        
+
         // Set expiration to 15 minutes from now
         const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
         // Delete any existing OTP for this user
-        await ResetPasswordOtp.deleteMany({ userId: user._id });
+        await ResetPasswordOtp.deleteMany({
+            userId: user._id
+        });
 
         // Create new OTP record
         const otpRecord = new ResetPasswordOtp({
@@ -58,16 +65,16 @@ async function sendPasswordResetEmail(req, res) {
         };
 
         await transporter.sendMail(mailOptions);
-        
-        res.json({ 
-            success: true, 
+
+        res.json({
+            success: true,
             message: 'OTP sent to email',
             userId: user._id // Send userId to client for verification step
         });
     } catch (error) {
         console.error('Error in password reset:', error);
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             message: 'Error processing password reset',
             error: process.env.NODE_ENV === 'development' ? error.message : null
         });
@@ -77,28 +84,42 @@ async function sendPasswordResetEmail(req, res) {
 async function verifyOtpAndResetPassword(req, res) {
     console.log("verifyOtpAndResetPassword called ..........................");
     try {
-        const { otp, newPassword } = req.body;
-        
+        const {
+            otp,
+            newPassword
+        } = req.body;
+
         // First, find the user from the request (assuming you have auth middleware)
         const user = req.user; // This should be set by your auth middleware
         if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
         }
 
         // Find the OTP record
-        const otpRecord = await ResetPasswordOtp.findOne({ 
+        const otpRecord = await ResetPasswordOtp.findOne({
             userId: user._id,
             otp
         });
 
         if (!otpRecord) {
-            return res.status(400).json({ success: false, message: 'Invalid OTP' });
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid OTP'
+            });
         }
 
         // Check if OTP is expired
         if (otpRecord.expiresAt < new Date()) {
-            await ResetPasswordOtp.deleteOne({ _id: otpRecord._id });
-            return res.status(400).json({ success: false, message: 'OTP has expired' });
+            await ResetPasswordOtp.deleteOne({
+                _id: otpRecord._id
+            });
+            return res.status(400).json({
+                success: false,
+                message: 'OTP has expired'
+            });
         }
 
         // Hash new password
@@ -110,16 +131,17 @@ async function verifyOtpAndResetPassword(req, res) {
         await user.save();
 
         // Delete the used OTP
-        await ResetPasswordOtp.deleteOne({ _id: otpRecord._id });
-
-        res.json({ 
-            success: true, 
-            message: 'Password reset successfully' 
+        await ResetPasswordOtp.deleteOne({
+            _id: otpRecord._id
+        });
+        res.clearCookie("statiyUserToken").json({
+            success: true,
+            message: 'Password reset successfully'
         });
     } catch (error) {
         console.error('Error in password reset verification:', error);
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             message: 'Error resetting password',
             error: process.env.NODE_ENV === 'development' ? error.message : null
         });

@@ -43,7 +43,7 @@ function ContactUs() {
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-800">LinkedIn</h3>
                     <p className="mt-1 text-gray-600">Connect with our developer on LinkedIn</p>
-                    <a href="https://linkedin.com/in/developer-profile" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-500 hover:underline">linkedin.com/in/developer-profile</a>
+                    <a href="www.linkedin.com/in/anuja-mishra-1193a2245" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-500 hover:underline">linkedin.com/in/developer-profile</a>
                   </div>
                 </div>
               </div>
@@ -58,7 +58,7 @@ function ContactUs() {
                   <div className="ml-4">
                     <h3 className="text-lg font-medium text-gray-800">GitHub</h3>
                     <p className="mt-1 text-gray-600">Report issues or contribute to the project</p>
-                    <a href="https://github.com/username/project-repository" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-500 hover:underline">github.com/username/project-repository</a>
+                    <a href="https://github.com/anuja12mishra" target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-blue-500 hover:underline">github.com/username/project-repository</a>
                   </div>
                 </div>
               </div>

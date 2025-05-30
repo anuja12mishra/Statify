@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { IoMailUnreadOutline } from "react-icons/io5";
 import axios from "axios";
+import { showToast } from "../helper/showTost";
 
 function ResendEmailModal({ setShowResend }) {
   const handleResend = async () => {
@@ -12,21 +13,25 @@ function ResendEmailModal({ setShowResend }) {
       );
   
       if (res.status === 200) {
-        alert(res.data.message); // Email sent successfully
+        showToast('success',res.data.message);
+        //alert(res.data.message); // Email sent successfully
         setShowResend(false);
       }
     } catch (err) {
       // Handle non-2xx errors
       if (err.response) {
         if (err.response.status === 400) {
-          alert(err.response.data.message); // User already verified
+          showToast('warning',err.response.data.message);
+          //alert(err.response.data.message); // User already verified
         } else {
-          alert("Unexpected error: " + err.response.data.message || "Something went wrong!");
+          showToast('error',"Unexpected error: " + err.response.data.message || "Something went wrong!");
+          //alert("Unexpected error: " + err.response.data.message || "Something went wrong!");
         }
       } else {
         // Handle network or unknown errors
-        console.error("Error resending email:", err);
-        alert("Error resending email verification link. Please try again later.");
+        //console.error("Error resending email:", err);
+        showToast('error',"Error resending email verification link. Please try again later.");
+        //alert("Error resending email verification link. Please try again later.");
       }
     }
   };

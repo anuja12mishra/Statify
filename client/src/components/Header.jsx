@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ResendEmailModal from "./ResendEmailModal";
 import { useEffect, useRef } from "react";
+import { showToast } from "../helper/showTost";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -21,7 +22,8 @@ const Header = () => {
         { withCredentials: true }
       );
       document.cookie = "statiyUserToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      alert(res.data.message);
+      showToast('success',res.data.message)
+      //alert(res.data.message);
       localStorage.removeItem("userLoggedIn");
       navigate("/login");
     } catch (err) {

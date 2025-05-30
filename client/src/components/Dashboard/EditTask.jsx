@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { showToast } from "../../helper/showTost";
 
 function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
     const [values, setValues] = useState({
@@ -39,8 +40,9 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
                     _id: data._id // Ensure _id is set
                 });
             } catch (err) {
-                console.error("Fetch error:", err);
-                alert(err.response?.data?.error || "Failed to load task");
+                //console.error("Fetch error:", err);
+                showToast('error',err.response?.data?.error || "Failed to load task");
+                //alert(err.response?.data?.error || "Failed to load task");
             } finally {
                 setLoading(false);
             }
@@ -53,7 +55,8 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
         e.preventDefault();
         
         if (!values.title.trim() || !values.description.trim()) {
-            alert("Title and Description are required!");
+            showToast('error',"Title and Description are required!");
+            //alert("Title and Description are required!");
             return;
         }
 
@@ -65,9 +68,11 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
                 { withCredentials: true }
             );
             if (res.status == 200) {
-                alert(res.data.message || "Task Edited successfully!");
+                showToast('success',res.data.message || "Task Edited successfully!");
+                //alert(res.data.message || "Task Edited successfully!");
             } else {
-                alert("Failed to add task");
+                showToast('error',"Failed to add task");
+                //alert("Failed to add task");
             }
             
             // Clean up and close
@@ -79,8 +84,9 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
             window.location.reload();
             
         } catch (err) {
-            console.error("Update error:", err);
-            alert(err.response?.data?.error || "Failed to update task");
+            //console.error("Update error:", err);
+            showToast('error',err.response?.data?.error || "Failed to update task");
+            //alert(err.response?.data?.error || "Failed to update task");
         } finally {
             setLoading(false);
         }
@@ -96,9 +102,11 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
                 { withCredentials: true }
             );
             if (res.status == 200) {
-                alert(res.data.message || "Task Deleted successfully!");
+                showToast('success',res.data.message || "Task Deleted successfully!");
+                //alert(res.data.message || "Task Deleted successfully!");
             } else {
-                alert("Failed to add task");
+                showToast('error',"Failed to add task");
+                //alert("Failed to add task");
             }
 
             window.sessionStorage.removeItem("editTaskId");
@@ -107,8 +115,9 @@ function EditTask({ setIsEditTaskVisible, editId, setEditId }) {
 
             window.location.reload();
         }catch(err){
-            console.error("Update error:", err);
-            alert(err.response?.data?.error || "Failed to Delete task");
+            // console.error("Update error:", err);
+            // alert(err.response?.data?.error || "Failed to Delete task");
+            showToast('error',err.response?.data?.error || "Failed to Delete task");
         }finally {
             setLoading(false);
         }

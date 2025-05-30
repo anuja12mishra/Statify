@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoEyeOff, IoEye } from "react-icons/io5";
+import { showToast } from "../helper/showTost";
 
 function ResetPassword() {
   const navigate = useNavigate();
@@ -21,9 +22,13 @@ function ResetPassword() {
     const fetchUserProfile = async () => {
       try{
         const res = axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`,{ withCredentials: true,})
-        console.log(res);
+        //console.log(res);
+        if(res.success === true){
+          showToast('success','OTP send to you email');
+        }
       }catch(err){
-        alert(err);
+        //alert(err);
+        showToast('error',`OTP cant be send: ${err}`);
       }
     }
     fetchUserProfile();
@@ -86,8 +91,18 @@ function ResetPassword() {
         values,
         { withCredentials: true }
       );
-      console.log(res.data);
-      alert("Password reset successful!");
+
+      if(res.success === true){
+        showToast('success',res.message);
+      }
+      else if(res.status === 404){
+        showToast('error','user not found');
+      }else if(res.status === 400) {
+        showToast('error','Invalid OTP');
+      }
+
+      //console.log(res.data);
+      //alert("Password reset successful!");
       navigate("/login");
     } catch (error) {
       setError(error.response?.data?.error || "Password reset failed. Try again.");

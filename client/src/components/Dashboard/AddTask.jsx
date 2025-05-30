@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import axios from "axios";
+import { showToast } from "../../helper/showTost";
 
 function AddTask({ setAddTaskDiv }) {
     const [values, setValues] = useState({
@@ -22,7 +23,8 @@ function AddTask({ setAddTaskDiv }) {
         e.preventDefault();
 
         if (!values.title.trim() || !values.description.trim()) {
-            alert("Title and Description are required!");
+            showToast('warning',"Title and Description are required!");
+            //alert("Title and Description are required!");
             return;
         }
 
@@ -34,19 +36,23 @@ function AddTask({ setAddTaskDiv }) {
                 priority: "low",
                 status: "yetToStart"
             });
-            console.log(res.data.message);
+            //console.log(res.data.message);
             if (res.status == 201) {
                 setAddTaskDiv(false);
+                showToast('success','task added successfuly')
             }else if(res.status == 403){
-                alert("please verify your email");
+                showToast('error','task added successfuly')
+                //alert("please verify your email");
             }
             else {
-                alert("Failed to add task");
+                showToast('error','Failed to add task');
+                //alert("Failed to add task");
             }
 
         } catch (err) {
             //console.log(err);
-            alert(err.response?.data?.message || "An error occurred");
+            showToast('error',err.response?.data?.message || "An error occurred");
+            //alert(err.response?.data?.message || "An error occurred");
         }
     };
 

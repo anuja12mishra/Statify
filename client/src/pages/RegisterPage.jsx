@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { IoEye, IoEyeOff } from "react-icons/io5";
-import {showTost} from '../helper/showTost';
+import {showToast} from '../helper/showTost';
 
 function Register() {
   const navigate = useNavigate();
@@ -29,18 +29,18 @@ function Register() {
       //console.log(res.data);
 
       if(!res.status === 400){
-        showTost('error',res.data)
+        showToast('error',res.data)
       }
       if(res.status === 201){
-        showTost('success',res.message);
+        showToast('success',res.message);
       }
 
       navigate("/login");
     } catch (error) {
 
-      showTost('error',error.response?.data?.error || "Registration failed.");
+      showToast('error',error.response?.data?.error || "Registration failed.");
       //alert(error.response?.data?.error || "Registration failed.");
-      
+
     } finally {
       setIsLoading(false);
     }

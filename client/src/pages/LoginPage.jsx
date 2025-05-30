@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { IoEyeOff, IoEye } from "react-icons/io5";
+import { showToast } from "../helper/showTost";
 
 function Login() {
   const navigate = useNavigate();
@@ -28,11 +29,17 @@ function Login() {
         values,
         { withCredentials: true }
       );
-      console.log(res.data);
+      //console.log(res.data);
       localStorage.setItem("userLoggedIn", "Yes");
+
+      if(res.status === 200){
+        showToast('success',res.success);
+      }
+
       navigate("/dashboard");
     } catch (error) {
-      alert(error.response?.data?.error || "Login failed. Try again.");
+      showToast('error',error.response?.data?.error);
+      //alert(error.response?.data?.error || "Login failed. Try again.");
     } finally {
       setIsLoading(false);
     }

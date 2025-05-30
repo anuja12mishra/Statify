@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import {showTost} from '../helper/showTost';
 
 function Register() {
   const navigate = useNavigate();
@@ -25,10 +26,21 @@ function Register() {
     setIsLoading(true);
     try {
       const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/register`, values);
-      console.log(res.data);
+      //console.log(res.data);
+
+      if(!res.status === 400){
+        showTost('error',res.data)
+      }
+      if(res.status === 201){
+        showTost('success',res.message);
+      }
+
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.error || "Registration failed.");
+
+      showTost('error',error.response?.data?.error || "Registration failed.");
+      //alert(error.response?.data?.error || "Registration failed.");
+      
     } finally {
       setIsLoading(false);
     }

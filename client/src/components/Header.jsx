@@ -1,5 +1,6 @@
 import { IoLogOutOutline, IoMailUnreadOutline, IoEllipsisVertical } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineDashboard } from "react-icons/md";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -96,7 +97,8 @@ const Header = () => {
                     to="/dashboard"
                     className="flex items-center gap-2 px-4 py-2 w-full hover:bg-gray-50 text-gray-700"
                   >
-                    <CgProfile size={18} /> Dashboard
+                    {/* <CgProfile size={18} />  */}
+                    <MdOutlineDashboard size={18}/>Dashboard
                   </Link>
                   <div className="h-px w-full bg-gray-100 my-1"></div>
                   <button

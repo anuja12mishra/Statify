@@ -57,10 +57,15 @@ async function sendPasswordResetEmail(req, res) {
             to: user.email,
             subject: 'Password Reset OTP',
             html: `
-                <p>Hello ${user.username || 'there'},</p>
-                <p>Your OTP for password reset is: <strong>${otp}</strong></p>
-                <p>This OTP is valid for 15 minutes.</p>
-                <p>If you didn't request this, please ignore this email.</p>
+                <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
+                    <div style="max-width: 500px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: auto;">
+                        <h2 style="color: #1e3a8a;">Hello ${user.username || 'there'},</h2>
+                        <p style="font-size: 16px; color: #333;">Your OTP for password reset is:</p>
+                        <p style="font-size: 24px; font-weight: bold; color: #d97706;">${otp}</p>
+                        <p style="font-size: 14px; color: #555; margin-top: 10px;">This OTP is valid for <strong>15 minutes</strong>.</p>
+                        <p style="font-size: 14px; color: #888; margin-top: 10px;">If you didn't request this, please ignore this email.</p>
+                    </div>
+                </div>
             `
         };
 

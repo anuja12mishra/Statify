@@ -33,9 +33,10 @@ function Register() {
       }
       if(res.status === 201){
         showToast('success',res.message);
+        showToast('info','A email verification link is sent to you email');
       }
 
-      navigate("/login");
+      navigate("/redirect");
     } catch (error) {
 
       showToast('error',error.response?.data?.error || "Registration failed.");

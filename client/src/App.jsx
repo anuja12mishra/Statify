@@ -10,6 +10,7 @@ import ContactUs from "./pages/ContactUs";
 import Profile from "./pages/ProfilePage";
 import ResetPassword from "./pages/ResetPassword";
 import ErrorPage from "./pages/error";
+import RegisterRedirection from "./pages/RegisterRedirection";
 function App() {
   return (
     <>
@@ -54,6 +55,10 @@ function App() {
         <Route
           path="/reset-pass"
           element={<ResetPassword />}
+        />
+        <Route
+          path="/redirect"
+          element={<RegisterRedirection />}
         />
         <Route path="*" element={<ErrorPage />} />
       </Routes>

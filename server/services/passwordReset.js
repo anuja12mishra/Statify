@@ -82,7 +82,7 @@ async function sendPasswordResetEmail(req, res) {
 }
 
 async function verifyOtpAndResetPassword(req, res) {
-    console.log("verifyOtpAndResetPassword called ..........................");
+    //console.log("verifyOtpAndResetPassword called ..........................");
     try {
         const {
             otp,

@@ -23,7 +23,7 @@ function ResetPassword() {
       try{
         const res = axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`,{ withCredentials: true,})
         //console.log(res);
-        if(res.success === true){
+        if(res.data.success === true){
           showToast('success','OTP send to you email');
         }
       }catch(err){
@@ -92,7 +92,7 @@ function ResetPassword() {
         { withCredentials: true }
       );
 
-      if(res.success === true){
+      if(res.data.success === true){
         showToast('success',res.message);
       }
       else if(res.status === 404){

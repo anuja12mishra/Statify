@@ -58,6 +58,7 @@ const register = async (req, res) => {
         //console.log("New user registered:", { username, email,password }); // ✅ Removed password logging for security
 
         return res.status(201).json({
+            success:true,
             message: "User registered successfully"
         }); // ✅ Changed 200 → 201 (created)
 

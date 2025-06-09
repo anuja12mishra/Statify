@@ -32,8 +32,8 @@ function Login() {
       //console.log(res.data);
       localStorage.setItem("userLoggedIn", "Yes");
 
-      if(res.status === 200){
-        showToast('success',res.success);
+      if(res.data.success === 200){
+        showToast('success',res.data.success);
       }
 
       navigate("/dashboard");

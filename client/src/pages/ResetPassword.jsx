@@ -8,35 +8,44 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   useEffect(() => {
-
-    const checkIsAuthorize = async ()=>{
-      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`,{
-        withCredentials: true,
-      });
-      if(res.status != 200){
+    const checkIsAuthorize = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/check/isAuthorize`, {
+          withCredentials: true,
+        });
+        if (res.status != 200) {
+          navigate("/login");
+        }
+      } catch (error) {
+        // If authorization check fails, redirect to login
         navigate("/login");
       }
     }
     checkIsAuthorize();
 
     const fetchUserProfile = async () => {
-      try{
-        const res = axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`,{ withCredentials: true,})
-        //console.log(res);
-        if(res.data.success === true){
-          showToast('success','OTP send to you email');
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/reset/send-reset-otp`, {}, { 
+          withCredentials: true,
+        });
+        
+        if (res.data.success === true) {
+          showToast('success', 'OTP sent to your email');
         }
-      }catch(err){
-        //alert(err);
-        showToast('error',`OTP cant be send: ${err}`);
+      } catch (err) {
+        console.error('Error sending OTP:', err);
+        // Better error handling - check if there's a response with error message
+        const errorMessage = err.response?.data?.message || err.message || 'Unknown error';
+        showToast('error', `OTP can't be sent: ${errorMessage}`);
       }
     }
     fetchUserProfile();
-}, []);
+  }, [navigate]);
 
   const [values, setValues] = useState({
     otp: "",
     newPassword: "",
+    confirmPassword: "", // Add this missing field
   });
 
   const [showPassword, setShowPassword] = useState({
@@ -92,20 +101,30 @@ function ResetPassword() {
         { withCredentials: true }
       );
 
-      if(res.data.success === true){
-        showToast('success',res.message);
+      if (res.data.success === true) {
+        showToast('success', res.data.message || 'Password reset successful');
+        navigate("/login");
       }
-      else if(res.status === 404){
-        showToast('error','user not found');
-      }else if(res.status === 400) {
-        showToast('error','Invalid OTP');
-      }
-
-      //console.log(res.data);
-      //alert("Password reset successful!");
-      navigate("/login");
     } catch (error) {
-      setError(error.response?.data?.error || "Password reset failed. Try again.");
+      console.error('Password reset error:', error);
+      
+      // Handle specific error cases
+      if (error.response) {
+        const { status, data } = error.response;
+        
+        if (status === 404) {
+          showToast('error', 'User not found');
+        } else if (status === 400) {
+          showToast('error', data.message || 'Invalid OTP');
+        } else {
+          showToast('error', data.message || 'Password reset failed');
+        }
+        
+        setError(data.message || "Password reset failed. Try again.");
+      } else {
+        showToast('error', 'Network error. Please try again.');
+        setError("Network error. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -135,6 +154,7 @@ function ResetPassword() {
                 className="border rounded-lg px-4 py-3 border-gray-300 w-full outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 value={values.otp}
                 onChange={handleChange}
+                maxLength="6"
               />
             </div>
             

@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "preinstall": "npm config set rollup-installed-npm-package false"
+    "postinstall": "node -e \"try { require('fs').unlinkSync(require('path').join(require.resolve('rollup'), '../../dist/loadConfigFile.js')) } catch(e) {}\""
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.4",
